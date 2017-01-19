@@ -9,16 +9,19 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class TestLogger {
 
     private Object o;
-    public TestLogger(Object o) {
+    TestLogger(Object o) {
         this.o = o;
         makeLogsDirectory();
+    }
+
+    public static TestLogger getLogger(Object o) {
+        return new TestLogger(o);
     }
 
     public void log(String message) {

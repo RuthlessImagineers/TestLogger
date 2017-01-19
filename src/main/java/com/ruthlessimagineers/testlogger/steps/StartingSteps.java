@@ -16,13 +16,13 @@ public class StartingSteps {
     @Before
     public void setup(Scenario scenario) {
         this.scenario = scenario;
-        TestLogger testLogger = new TestLogger(this);
+        TestLogger testLogger = TestLogger.getLogger(this);
        testLogger.log("Starting with scenario --" +scenario.getName());
     }
 
     @After
     public void tearDown() {
-        TestLogger testLogger = new TestLogger(this);
+        TestLogger testLogger = TestLogger.getLogger(this);
         testLogger.log("Scenario is -- "+scenario.getStatus());
     }
 }

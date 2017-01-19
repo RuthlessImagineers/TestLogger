@@ -20,10 +20,10 @@ public class TestLoggerTest {
 
     @Test
     public void loggerTest() {
-        TestLogger logger = new TestLogger(this);
+        TestLogger logger = TestLogger.getLogger(this);
         logger.log("Test log");
         TestLoggerTest loggerTest = new TestLoggerTest();
-        TestLogger logger1 = new TestLogger(loggerTest);
+        TestLogger logger1 = TestLogger.getLogger(loggerTest);
         logger1.log("Test log1");
     }
 

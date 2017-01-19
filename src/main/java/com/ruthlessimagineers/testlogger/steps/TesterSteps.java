@@ -10,7 +10,7 @@ import cucumber.api.java8.En;
 public class TesterSteps implements En {
     private TestLogger testLogger;
     public TesterSteps() {
-        testLogger = new TestLogger(this);
+        testLogger = TestLogger.getLogger(this);
         Given("^I am a tester$", () -> {
           //  System.out.println("Tester");
             testLogger.log("In Step I am a tester");
