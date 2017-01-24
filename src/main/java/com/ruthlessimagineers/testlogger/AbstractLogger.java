@@ -1,33 +1,70 @@
 package com.ruthlessimagineers.testlogger;
 
-
 import com.ruthlessimagineers.testlogger.core.ScenarioDetails;
+import com.ruthlessimagineers.testlogger.utils.Level;
 import cucumber.api.Scenario;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Properties;
 
-public class TestLogger {
+public abstract class AbstractLogger {
 
     private Object o;
-    TestLogger(Object o) {
+
+    public AbstractLogger(Object o) {
         this.o = o;
         makeLogsDirectory();
     }
 
-    public static TestLogger getLogger(Object o) {
-        return new TestLogger(o);
+    protected void scribble(String message, Level level) {
+        Logger logger = Logger.getLogger(o.getClass());
+        switch (level) {
+            case INFO:
+                logger.info(message);
+                break;
+            case DEBUG:
+                logger.debug(message);
+                break;
+            case ERROR:
+                logger.error(message);
+                break;
+            case FATAL:
+                logger.fatal(message);
+        }
+
     }
 
-    public void log(String message) {
+    protected void scribble(String message, Level level, Throwable t) {
         Logger logger = Logger.getLogger(o.getClass());
-        System.out.println(logger.getName() +"=="+logger);
-        logger.info(message);
+        switch (level) {
+            case INFO:
+                logger.info(message,t);
+                break;
+            case DEBUG:
+                logger.debug(message,t);
+                break;
+            case ERROR:
+                logger.error(message,t);
+                break;
+            case FATAL:
+                logger.fatal(message,t);
+        }
+
+    }
+
+    protected void setStatus() throws IllegalAccessException {
+        Optional<Field> scenario = getScenario();
+        if(scenario.isPresent()) {
+            Scenario scn = (Scenario) scenario.get().get(this.o);
+            scribble("[Status] -- "+scn.getStatus(),Level.INFO);
+        }
     }
 
     private void makeLogsDirectory()  {
@@ -38,6 +75,7 @@ public class TestLogger {
             Scenario o = null;
             try {
                 o = (Scenario) first.get().get(this.o);
+                System.out.println(o.getStatus());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -65,7 +103,15 @@ public class TestLogger {
     }
 
     private void configureLogProperty() {
-        PropertyConfigurator.configure(getClass().getClassLoader().getResourceAsStream("log4j.properties"));
+        Properties props = new Properties();
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("log4j.properties");
+        try {
+            props.load(inputStream);
+            System.out.println(props.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PropertyConfigurator.configure(props);
     }
 
     private File getLogFile(String currentPath, Scenario o) {
@@ -77,8 +123,9 @@ public class TestLogger {
 
     private Optional<Field> getScenario() {
         return (Optional<Field>) Arrays.stream(o.getClass().getDeclaredFields()).filter(field -> {
-                field.setAccessible(true);
-                return field.getType().equals(Scenario.class);
-            }).findFirst();
+            field.setAccessible(true);
+            return field.getType().equals(Scenario.class);
+        }).findFirst();
     }
+
 }

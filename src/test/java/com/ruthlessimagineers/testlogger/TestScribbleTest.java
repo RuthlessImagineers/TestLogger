@@ -1,30 +1,30 @@
 package com.ruthlessimagineers.testlogger;
 
-import cucumber.api.CucumberOptions;
 import cucumber.api.java.Before;
-import gherkin.formatter.model.BasicStatement;
 import gherkin.formatter.model.Scenario;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import io.github.lukehutch.fastclasspathscanner.scanner.ClassInfo;
 import io.github.lukehutch.fastclasspathscanner.scanner.ScanResult;
+import org.elasticsearch.common.joda.Joda;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.lukehutch.fastclasspathscanner.scanner.ScanResult.*;
 /**
  * Created by krishnanand on 19/01/17.
  */
-public class TestLoggerTest {
+public class TestScribbleTest {
 
     @Test
     public void loggerTest() {
-        TestLogger logger = TestLogger.getLogger(this);
-        logger.log("Test log");
-        TestLoggerTest loggerTest = new TestLoggerTest();
-        TestLogger logger1 = TestLogger.getLogger(loggerTest);
-        logger1.log("Test log1");
+//        Scribble scribble = Scribbler.getPaper(this);
+//        scribble.scribble("Test scribble");
+//        TestScribbleTest loggerTest = new TestScribbleTest();
+//        Scribbler logger1 = Scribbler.getPaper(loggerTest);
+//        logger1.scribble("Test log1");
+       // Joda joda = J
+
+        System.out.println(new Joda().toString());
     }
 
     @Test

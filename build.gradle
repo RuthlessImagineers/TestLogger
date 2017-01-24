@@ -19,4 +19,10 @@ dependencies {
     compile group: 'info.cukes', name: 'cucumber-core', version: "$cukesVersion"
     compile group: 'info.cukes', name: 'cucumber-java8', version: "$cukesVersion"
     compile group: 'io.github.lukehutch', name: 'fast-classpath-scanner', version: '2.0.9'
+    compile group: 'org.elasticsearch.client', name: 'transport', version: '5.1.2'
+    compile group: 'org.elasticsearch.client', name: 'rest', version: '5.1.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
+    compile 'org.springframework.data:spring-data-elasticsearch:2.0.6.RELEASE'
+
 }
